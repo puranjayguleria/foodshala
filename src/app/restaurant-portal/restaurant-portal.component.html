@@ -1,0 +1,78 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div class="bkimg">
+<div class="background">
+    <div style="float: right;overflow: hidden;">
+        <button type="button"  class="btn btn-primary" (click)="logout()">Logout</button>
+    </div>
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+        
+        
+        <h2 class="text-center"> Hi! {{ uname }} <br/>Add items to your menu</h2>
+            <div class="form-group">
+                <label>Item Name:</label>
+                <input type="text"  class="form-control" placeholder="Enter Item Name" [(ngModel)]="item.name" name="name" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Religion:</label>
+                <input type="text"  class="form-control" placeholder="Enter Religion" [(ngModel)]="item.religion" name="religion" required/>
+            </div>
+            
+            
+            <input type="button" class="btn btn-primary" (click)="addToArray()" value="Add">
+        
+        <br/><br/>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        
+    </form>
+    
+
+
+</div>
+<br/>
+<br/>
+<h1 style="color:aliceblue">Your MENU Card </h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      
+      <th scope="col">Name</th>
+      <th scope="col">Religion</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of items_to_show; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      
+      <td>{{ item.name }}</td>
+      <td>{{ item.religion }}</td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  <div>
+    <h2>  Orders Summary: </h2>
+    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          
+          <th scope="col">Customer Name</th>
+          <th scope="col">Item Ordered</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let order of orders; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          
+          <td>{{ order.loggedInUsername }}</td>
+          <td>{{ order.orderedItem }}</td>
+        </tr>
+        </tbody>
+      </table>
+      
+  </div>

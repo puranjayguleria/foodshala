@@ -1,1 +1,35 @@
-<p>menu works!</p>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div *ngIf="loggedInUsername!=null">
+  <h3>HI ! {{loggedInUsername}}</h3>
+
+</div>
+<div class="row card-group" *ngFor="let item of items">
+  <div class="col-4" *ngFor="let it of item.itemdet">
+<mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+     <!-- <mat-card-title><h3>Dish Name: {{it.name}}</h3></mat-card-title>
+      <mat-card-subtitle><h4>Dish Religion{{it.religion}}</h4></mat-card-subtitle>-->
+    </mat-card-header>
+    <img mat-card-image src="https://cdn.pixabay.com/photo/2017/02/15/10/57/pizza-2068272__340.jpg">
+    <mat-card-content>
+      
+        <h3>Dish Name: {{it.name}}</h3> 
+        <div *ngIf="it.religion==='veg'" style="color:green;">
+        <h4> {{it.religion}}</h4>
+      </div>
+      <div *ngIf="it.religion=='nonveg'" style="color:red;">
+        <h4> {{it.religion}}</h4>
+      </div>
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <span *ngIf="type==='customer' || type==null"> 
+      <button mat-button (click)="orderitem(item.username,it.name)"> Order</button>
+      </span>
+    </mat-card-actions>
+  </mat-card>
+  </div>
+</div>

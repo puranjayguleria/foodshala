@@ -11,7 +11,7 @@ import { RestDetail } from '../classes/RestDetail';
 })
 export class SignupRestaurantComponent implements OnInit {
 
-  user: RestDetail = {username:"", password:"", RestaurantName:""};
+  user: RestDetail = {username:"", password:"", restaurantName:""};
   
   constructor( private router: Router,
     private foodservice: FoodServiceService) { }

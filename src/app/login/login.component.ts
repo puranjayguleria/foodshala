@@ -24,8 +24,17 @@ export class LoginComponent implements OnInit {
     console.log(this.user);
     this.foodservice.LoginEndpoint(this.user)
     .subscribe(data => {
-      if (data == true){
+      if (data == true && this.user.type == "restaurant"){
+        localStorage.setItem("username",this.user.username);
+        localStorage.setItem("type","restaurant");
+        this.router.navigate(['/restaurant']);
+        
+      }
+      if (data == true && this.user.type == "customer"){
+        localStorage.setItem("username",this.user.username);
+        localStorage.setItem("type","customer");
         this.router.navigate(['/menu']);
+        
       }
       else {
         console.log("Login failed!");

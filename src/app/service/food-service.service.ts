@@ -27,5 +27,19 @@ export class FoodServiceService {
     return this.http.post<boolean>('https://arcane-lake-67019.herokuapp.com/api/Login', ld);    
   }
   
-  
+  addMenuItem(item:any):Observable<boolean>{
+    return this.http.post<boolean>('https://arcane-lake-67019.herokuapp.com/api/menu',item);
+  }
+  getMenuItems(uname:string):Observable<any>{
+    return this.http.get<any>('https://arcane-lake-67019.herokuapp.com/api/menu/'+uname);
+  }
+  getallMenuItems():Observable<any>{
+    return this.http.get<any>('https://arcane-lake-67019.herokuapp.com/api/dashboard')
+  }
+  addOrderSummary(orderdata:any):Observable<boolean>{
+    return this.http.post<boolean>('https://arcane-lake-67019.herokuapp.com/api/restaurant_orders',orderdata);
+  }
+  getOrdersSummary(uname:string):Observable<any>{
+    return this.http.get<any>('https://arcane-lake-67019.herokuapp.com/api/get_orders/'+uname);
+  }
 }

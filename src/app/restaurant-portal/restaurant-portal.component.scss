@@ -1,0 +1,26 @@
+.background {
+    width: 100%;
+    height: 50%;
+    
+    //background-size: 110% 110%;    
+    
+    
+    
+    
+    color: white;
+ }
+
+ .bkimg{
+    background: url('/assets/images/background-login.jpg') no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size:cover;
+    background-size: cover;
+    
+    width: 100%;
+    height: 100vh;
+ }
+ .table{
+     background-color: white !important;
+ }
+ 

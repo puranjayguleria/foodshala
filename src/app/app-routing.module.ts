@@ -1,3 +1,4 @@
+import { RestaurantPortalComponent } from './restaurant-portal/restaurant-portal.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -12,7 +13,8 @@ const routes: Routes = [
  { path: 'signup-restaurant', component: SignupRestaurantComponent },
  { path: 'signup-customer', component: SignupCustomerComponent },
  { path: 'login', component: LoginComponent },
- { path: 'menu', component: MenuComponent }
+ { path: 'menu', component: MenuComponent },
+ {path : 'restaurant', component:RestaurantPortalComponent}
 ];
 
 @NgModule({

@@ -1,3 +1,4 @@
+import { OrderSuccessfulComponent } from './order-successful/order-successful.component';
 import { RestaurantPortalComponent } from './restaurant-portal/restaurant-portal.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -14,7 +15,8 @@ const routes: Routes = [
  { path: 'signup-customer', component: SignupCustomerComponent },
  { path: 'login', component: LoginComponent },
  { path: 'menu', component: MenuComponent },
- {path : 'restaurant', component:RestaurantPortalComponent}
+ {path : 'restaurant', component:RestaurantPortalComponent},
+ {path:'orderSuccess',component:OrderSuccessfulComponent}
 ];
 
 @NgModule({

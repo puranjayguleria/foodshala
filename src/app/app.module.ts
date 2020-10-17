@@ -21,6 +21,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { OrderSuccessfulComponent } from './order-successful/order-successful.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MenuComponent,
     RestaurantPortalComponent,
     HeaderComponent,
+    OrderSuccessfulComponent,
     
   ],
   imports: [

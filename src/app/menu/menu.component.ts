@@ -12,6 +12,7 @@ export class MenuComponent implements OnInit {
 
   constructor(private router: Router,private foodService:FoodServiceService,public snackBar:MatSnackBar) { }
   items:[];
+  is_loading:boolean=true
   type:string=localStorage.getItem("type");
   loggedInUsername:string=localStorage.getItem("username");
   ngOnInit() {
@@ -19,6 +20,7 @@ export class MenuComponent implements OnInit {
         console.log(data);
         console.log("h");
         this.items=data;
+        this.is_loading=false;
     })
 
   }
@@ -36,6 +38,7 @@ export class MenuComponent implements OnInit {
            });
            localStorage.removeItem("username");
            localStorage.removeItem("type");
+           this.router.navigate(['/orderSuccess']);
           }
         })
     }

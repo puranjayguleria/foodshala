@@ -39,10 +39,11 @@ export class RestaurantPortalComponent implements OnInit {
     .subscribe(data => {
       if (data == true){
         console.log("saved!")
-        
+        this.router.navigate(['/restaurant'])
       }
       else {
         console.log("save failed!");
+        this.router.navigate(['/restaurant'])
       }  
     })
  

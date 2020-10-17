@@ -39,11 +39,11 @@ export class RestaurantPortalComponent implements OnInit {
     .subscribe(data => {
       if (data == true){
         console.log("saved!")
-        this.router.navigate(['/restaurant'])
+        this.ngOnInit();
       }
       else {
         console.log("save failed!");
-        this.router.navigate(['/restaurant'])
+        this.ngOnInit();
       }  
     })
  
@@ -58,7 +58,8 @@ export class RestaurantPortalComponent implements OnInit {
 
   addToArray(){
     this.menu.itemdet.push(this.item);
-    console.log(this.menu);
+    console.log(this.menu.itemdet);
+    this.item={name:'',religion:''}
   }
   
 }

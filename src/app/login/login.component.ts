@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   data = true; 
     
   onLogin() {
-    console.log(this.user);
+    
     this.foodservice.LoginEndpoint(this.user)
     .subscribe(data => {
       if (data == true && this.user.type == "restaurant"){

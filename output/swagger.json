@@ -2497,7 +2497,7 @@
         "name" : "x-api-key",
         "type" : "apiKey",
         "in" : "header",
-        "description" : "x-api-key can be found at tutorial of this api"
+        "description" : "test pull push from swagger"
       }
     }
   },

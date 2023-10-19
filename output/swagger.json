@@ -1,0 +1,2518 @@
+{
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "url" : "https://staging04.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://staging04.dtc.levi.com/api/inventory-acc-intg"
+  }, {
+    "url" : "https://staging01.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://perf04.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://preprod.levi-site.com/api/inventory-acc"
+  } ],
+  "tags" : [ {
+    "name" : "v1"
+  }, {
+    "name" : "stock-level-controller"
+  } ],
+  "paths" : {
+    "/v1/{brand}/inventory" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the stock of all unique inventory products identified by brand, given the provided filtering parameters",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "schema" : {
+            "type" : "string",
+            "default" : "US",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "required" : false,
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : false,
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "location",
+          "in" : "query",
+          "required" : false,
+          "description" : "Location id to search for. Can be specified multiple times. Mandatory for itemType PC9.",
+          "schema" : {
+            "type" : "string",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "[]",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "Sample Location" : {
+              "description" : "",
+              "summary" : "Sample Location",
+              "value" : "810"
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "required" : true,
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "levi", "docker" ],
+            "default" : "levi",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "query",
+          "required" : true,
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13.",
+          "schema" : {
+            "type" : "string",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "[]",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "description" : "",
+              "summary" : "PC9",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "description" : "",
+              "summary" : "PC13",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "required" : true,
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ],
+            "default" : "pc9",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "externalDocs" : {
+          "url" : "",
+          "description" : ""
+        },
+        "operationId" : "findById",
+        "description" : "Find By Id Endpoint for Inventory",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory/pc9/list" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "schema" : {
+            "type" : "string",
+            "default" : "US",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "aggregationLevel",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid aggregation level, when provided it should aggregate the list of results. Used for when itemType is PC9 and we need to get the inventory at PC13 level.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "pc9", "pc13" ],
+            "default" : "pc9",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "locations",
+          "in" : "query",
+          "required" : false,
+          "description" : "Location id to search for. Can be specified multiple times. If missing, it means the aggregation must be made across all locations.",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "[]",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "selectedstoreId",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid aggregation level, when provided it should aggregate the list of results. Used for when itemType is PC9 and we need to get the inventory at PC13 level.",
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "required" : true,
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "levi", "docker" ],
+            "default" : "levi",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemIdList",
+          "in" : "query",
+          "required" : true,
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13.",
+          "schema" : {
+            "type" : "string",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "[]",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "description" : "",
+              "summary" : "PC9",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "description" : "",
+              "summary" : "PC13",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "required" : true,
+          "description" : "The type of identifier to use. One of pc9/pc13. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ],
+            "default" : "pc9",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "externalDocs" : {
+          "url" : "",
+          "description" : ""
+        },
+        "operationId" : "findAggregatedInvStockList",
+        "description" : "Endpoint for findAggregatedInvStockList",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "pc9_pc9" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "prd1",
+                        "inventory" : [ {
+                          "dcInventory" : 100,
+                          "sfsInventory" : 47,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  },
+                  "pc9_pc13" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "prd1",
+                        "inventory" : [ {
+                          "sku" : "sku12",
+                          "dcInventory" : 0,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 1,
+                          "selectedStoreBOPISInventory" : 1,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        }, {
+                          "sku" : "sku11",
+                          "dcInventory" : 1,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      }, {
+                        "itemId" : "prd2",
+                        "inventory" : [ {
+                          "sku" : "sku13",
+                          "dcInventory" : 1,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        }, {
+                          "sku" : "sku14",
+                          "dcInventory" : 0,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 1,
+                          "selectedStoreBOPISInventory" : 1,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  },
+                  "pc13_pc13" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "sku13",
+                        "inventory" : [ {
+                          "dcInventory" : 1,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      }, {
+                        "itemId" : "sku14",
+                        "inventory" : [ {
+                          "dcInventory" : 0,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "itemId" : {
+                            "type" : "string"
+                          },
+                          "inventory" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "sku" : {
+                                  "type" : "string"
+                                },
+                                "dcInventory" : {
+                                  "type" : "integer",
+                                  "format" : "int64",
+                                  "minimum" : -9223372036854776000,
+                                  "maximum" : 9223372036854776000
+                                },
+                                "sfsInventory" : {
+                                  "type" : "integer",
+                                  "format" : "int64",
+                                  "minimum" : -9223372036854776000,
+                                  "maximum" : 9223372036854776000
+                                },
+                                "selectedStoreSFSInventory" : {
+                                  "type" : "integer",
+                                  "format" : "int64",
+                                  "minimum" : -9223372036854776000,
+                                  "maximum" : 9223372036854776000
+                                },
+                                "selectedStoreBOPISInventory" : {
+                                  "type" : "integer",
+                                  "format" : "int64",
+                                  "minimum" : -9223372036854776000,
+                                  "maximum" : 9223372036854776000
+                                },
+                                "futureInventory" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "asnQty" : {
+                                      "type" : "integer",
+                                      "format" : "int64",
+                                      "minimum" : -9223372036854776000,
+                                      "maximum" : 9223372036854776000
+                                    },
+                                    "asnDate" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "code" : 400,
+                      "message" : "Invalid value:'ONLINEr' for field:'channelType'. Only ONLINE/RETAIL is supported",
+                      "timestamp" : "2022-12-02T12:30:49.603131",
+                      "errorCode" : "INV-ACC-API-9"
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "code" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "message" : {
+                      "type" : "string"
+                    },
+                    "timestamp" : {
+                      "type" : "string"
+                    },
+                    "errorCode" : {
+                      "type" : "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          }
+        }
+      }
+    },
+    "/v1/{brand}/inventory/{itemId}" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the stock of the unique inventory product identified by brand and PC13 SKU, from all locations",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "schema" : {
+            "type" : "string",
+            "default" : "US",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "required" : false,
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : false,
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "required" : true,
+          "description" : "A valid SKU to search for. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC13" : {
+              "description" : "",
+              "summary" : "PC13",
+              "value" : "00501010103334"
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "required" : true,
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "levi", "docker" ],
+            "default" : "levi",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "externalDocs" : {
+          "url" : "",
+          "description" : ""
+        },
+        "operationId" : "findBySku",
+        "description" : "Find data by sku",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "offset" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "limit" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "total" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "productId" : {
+                            "type" : "string"
+                          },
+                          "sku" : {
+                            "type" : "string"
+                          },
+                          "upcEan" : {
+                            "type" : "string"
+                          },
+                          "locationId" : {
+                            "type" : "string"
+                          },
+                          "locationType" : {
+                            "type" : "string"
+                          },
+                          "quantityOnStock" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "sfsAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "bopisAvailableToSellQuantity" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "minimum" : -9223372036854776000,
+                            "maximum" : 9223372036854776000
+                          },
+                          "rfidCount" : {
+                            "type" : "object",
+                            "properties" : {
+                              "updatedAt" : {
+                                "type" : "string"
+                              },
+                              "discrepancy" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "scannedQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "salesfloorQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "backStockQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "offsiteQuantity" : {
+                                "type" : "integer",
+                                "format" : "int32",
+                                "minimum" : -2147483648,
+                                "maximum" : 2147483647
+                              },
+                              "approved" : {
+                                "type" : "boolean"
+                              }
+                            }
+                          },
+                          "createdAt" : {
+                            "type" : "string"
+                          },
+                          "updatedAt" : {
+                            "type" : "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory/{itemType}/{itemId}" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the aggregated inventory stock of an inventory product identified by brand, itemType and itemId, given the provided filtering parameters",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "schema" : {
+            "type" : "string",
+            "default" : "US",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "required" : true,
+          "description" : "A valid ProductId, SKU, UPC or BARCODE, from all locations.",
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "description" : "",
+              "summary" : "PC9",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "description" : "",
+              "summary" : "PC13",
+              "value" : "00501010103334"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "path",
+          "required" : true,
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ],
+            "default" : "pc9",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "required" : true,
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "levi", "docker" ],
+            "default" : "levi",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "externalDocs" : {
+          "url" : "",
+          "description" : ""
+        },
+        "operationId" : "findAggregatedById",
+        "description" : "Find Aggregated result By Id",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "005010101",
+                      "status" : "instock",
+                      "channels" : [ {
+                        "channelType" : "onlineDC",
+                        "inventory" : [ {
+                          "availableLocations" : "1919,810,812,820",
+                          "quantityOnStock" : 320740,
+                          "sfsAvailableToSellQuantity" : 49712,
+                          "bopisAvailableToSellQuantity" : 2272
+                        } ]
+                      }, {
+                        "channelType" : "stores",
+                        "inventory" : [ {
+                          "availableLocations" : "102,116,117,121,122,124,125,126,127,128,129,134,135,137,145,146,148,149,167,175,182,183,185,186,189,190,195,197,198,203,204,210,213,221,224,233,244,246,255,258,270,271,282,284,285,287,288,289,294,327,329,401,405,408,409,413,414,417,421,423,425,428,430,435,437,441,448,451,455,456,457,463,466,481,493,601,604,605,610,618,637,638,640,642,931,934,938,941",
+                          "quantityOnStock" : 21670,
+                          "sfsAvailableToSellQuantity" : 999,
+                          "bopisAvailableToSellQuantity" : 21441
+                        } ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "itemId" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    },
+                    "channels" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "channelType" : {
+                            "type" : "string"
+                          },
+                          "inventory" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "availableLocations" : {
+                                  "type" : "string"
+                                },
+                                "quantityOnStock" : {
+                                  "type" : "integer"
+                                },
+                                "sfsAvailableToSellQuantity" : {
+                                  "type" : "integer"
+                                },
+                                "bopisAvailableToSellQuantity" : {
+                                  "type" : "integer"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "",
+                      "status" : "",
+                      "channels" : [ {
+                        "channelType" : "",
+                        "inventory" : [ ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "itemId" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    },
+                    "channels" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "channelType" : {
+                            "type" : "string"
+                          },
+                          "inventory" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "sku" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "availableLocations" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "quantityOnStock" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "sfsAvailableToSellQuantity" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "bopisAvailableToSellQuantity" : {
+                                  "description" : "**Omitted**"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "",
+                      "status" : "",
+                      "channels" : [ {
+                        "channelType" : "",
+                        "inventory" : [ ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "itemId" : {
+                      "type" : "string"
+                    },
+                    "status" : {
+                      "type" : "string"
+                    },
+                    "channels" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "channelType" : {
+                            "type" : "string"
+                          },
+                          "inventory" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "sku" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "availableLocations" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "quantityOnStock" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "sfsAvailableToSellQuantity" : {
+                                  "description" : "**Omitted**"
+                                },
+                                "bopisAvailableToSellQuantity" : {
+                                  "description" : "**Omitted**"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the aggregated inventory stock of a list of products, identified by brand, itemType, a list of item ids and a list of locations",
+        "parameters" : [ {
+          "name" : "location",
+          "in" : "query",
+          "required" : false,
+          "description" : "Location id to search for. Can be specified multiple times. If missing, it means the aggregation must be made across all locations.",
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "[]",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "required" : false,
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "countryCode",
+          "in" : "query",
+          "required" : false,
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "schema" : {
+            "type" : "string",
+            "default" : "US",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "required" : false,
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "minimum" : -2147483648,
+            "maximum" : 2147483647,
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "required" : true,
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "levi", "docker" ],
+            "default" : "levi",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "query",
+          "required" : true,
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13. ",
+          "schema" : {
+            "type" : "string",
+            "items" : {
+              "type" : "string"
+            },
+            "default" : "005010101",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "description" : "PC9 Example",
+              "summary" : "PC9",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "description" : "PC13 Example",
+              "summary" : "PC13",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "required" : true,
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ],
+            "default" : "pc9",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "externalDocs" : {
+          "url" : "",
+          "description" : ""
+        },
+        "operationId" : "findAggregatedStockList",
+        "description" : "Find Aggregated Stock List",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 1,
+                      "inventoryItems" : [ {
+                        "itemId" : "005010101",
+                        "status" : "instock",
+                        "channels" : [ {
+                          "channelType" : "onlineDC",
+                          "inventory" : [ {
+                            "availableLocations" : "1919,810,812,820",
+                            "quantityOnStock" : 320740,
+                            "sfsAvailableToSellQuantity" : 49712,
+                            "bopisAvailableToSellQuantity" : 2272
+                          } ]
+                        }, {
+                          "channelType" : "stores",
+                          "inventory" : [ {
+                            "availableLocations" : "102,116,117,121,122,124,125,126,127,128,129,134,135,137,145,146,148,149,167,175,182,183,185,186,189,190,195,197,198,203,204,210,213,221,224,233,244,246,255,258,270,271,282,284,285,287,288,289,294,327,329,401,405,408,409,413,414,417,421,423,425,428,430,435,437,441,448,451,455,456,457,463,466,481,493,601,604,605,610,618,637,638,640,642,931,934,938,941",
+                            "quantityOnStock" : 21670,
+                            "sfsAvailableToSellQuantity" : 999,
+                            "bopisAvailableToSellQuantity" : 21441
+                          } ]
+                        } ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "itemId" : {
+                            "type" : "string"
+                          },
+                          "status" : {
+                            "type" : "string"
+                          },
+                          "channels" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "channelType" : {
+                                  "type" : "string"
+                                },
+                                "inventory" : {
+                                  "uniqueItems" : true,
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "sku" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "availableLocations" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "quantityOnStock" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "sfsAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "bopisAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "inventoryItems" : [ {
+                        "itemId" : "",
+                        "status" : "",
+                        "channels" : [ {
+                          "channelType" : "",
+                          "inventory" : [ ]
+                        } ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "itemId" : {
+                            "type" : "string"
+                          },
+                          "status" : {
+                            "type" : "string"
+                          },
+                          "channels" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "channelType" : {
+                                  "type" : "string"
+                                },
+                                "inventory" : {
+                                  "uniqueItems" : true,
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "sku" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "availableLocations" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "quantityOnStock" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "sfsAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "bopisAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          },
+          "401" : {
+            "content" : {
+              "application/json" : {
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "inventoryItems" : [ {
+                        "itemId" : "",
+                        "status" : "",
+                        "channels" : [ {
+                          "channelType" : "",
+                          "inventory" : [ ]
+                        } ]
+                      } ]
+                    }
+                  }
+                },
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "count" : {
+                      "type" : "integer",
+                      "format" : "int32",
+                      "minimum" : -2147483648,
+                      "maximum" : 2147483647
+                    },
+                    "inventoryItems" : {
+                      "uniqueItems" : true,
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "itemId" : {
+                            "type" : "string"
+                          },
+                          "status" : {
+                            "type" : "string"
+                          },
+                          "channels" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "channelType" : {
+                                  "type" : "string"
+                                },
+                                "inventory" : {
+                                  "uniqueItems" : true,
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "sku" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "availableLocations" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "quantityOnStock" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "sfsAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      },
+                                      "bopisAvailableToSellQuantity" : {
+                                        "description" : "**Omitted**"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description" : ""
+          }
+        }
+      }
+    }
+  },
+  "info" : {
+    "title" : "Inventory Accuracy",
+    "version" : "1",
+    "description" : "Inventory Accuracy Endpoints",
+    "x-category" : "Accelarate",
+    "x-long-description" : "",
+    "x-website" : "",
+    "x-public" : false,
+    "x-thumbnail" : "https://rapidapi-prod-apis.s3.amazonaws.com/5e50e83f-654b-49fe-b395-448de9c1069b.png",
+    "x-version-lifecycle" : "active",
+    "x-badges" : [ ],
+    "x-collections" : [ ]
+  },
+  "security" : [ {
+    "security_scheme_name" : [ ]
+  } ],
+  "components" : {
+    "schemas" : {
+      "RfidViewDto" : {
+        "type" : "object",
+        "properties" : {
+          "updatedAt" : {
+            "type" : "string"
+          },
+          "discrepancy" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "scannedQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "salesfloorQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "backStockQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offsiteQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "approved" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "StockLevelDto" : {
+        "type" : "object",
+        "properties" : {
+          "productId" : {
+            "type" : "string"
+          },
+          "sku" : {
+            "type" : "string"
+          },
+          "upcEan" : {
+            "type" : "string"
+          },
+          "locationId" : {
+            "type" : "string"
+          },
+          "locationType" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "rfidCount" : {
+            "$ref" : "#/components/schemas/RfidViewDto"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "type" : "string"
+          }
+        }
+      },
+      "StockLevelResponseDto" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offset" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "limit" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "total" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StockLevelDto"
+            }
+          }
+        }
+      },
+      "AggregatedStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "channels" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StockByLocationTypeItemDto"
+            }
+          }
+        }
+      },
+      "AggregatedStockListDto" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AggregatedStockDto"
+            }
+          }
+        }
+      },
+      "InventoryDto" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "type" : "string"
+          },
+          "availableLocations" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "StockByLocationTypeItemDto" : {
+        "type" : "object",
+        "properties" : {
+          "channelType" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InventoryDto"
+            }
+          }
+        }
+      },
+      "AggregatedInvStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InvStockDto"
+            }
+          }
+        }
+      },
+      "AggregatedInvStockListDto" : {
+        "type" : "object",
+        "properties" : {
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AggregatedInvStockDto"
+            }
+          }
+        }
+      },
+      "FutureInventoryDto" : {
+        "type" : "object",
+        "properties" : {
+          "asnQty" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "asnDate" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InvStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "type" : "string"
+          },
+          "dcInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreSFSInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreBOPISInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "futureInventory" : {
+            "$ref" : "#/components/schemas/FutureInventoryDto"
+          }
+        }
+      },
+      "ErrorResponseDto" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 400
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Invalid value:'ONLINEr' for field:'channelType'. Only ONLINE/RETAIL is supported"
+          },
+          "timestamp" : {
+            "type" : "string",
+            "example" : "2022-12-02T12:30:49.603131"
+          },
+          "errorCode" : {
+            "type" : "string",
+            "example" : "INV-ACC-API-9"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "security_scheme_name" : {
+        "name" : "x-api-key",
+        "type" : "apiKey",
+        "in" : "header",
+        "description" : "x-api-key can be found at tutorial of this api"
+      }
+    }
+  },
+  "x-gateways" : [ {
+    "url" : "Levi-BaseUrls"
+  } ],
+  "x-documentation" : {
+    "tutorials" : [ {
+      "title" : "Inventory Accuracy API Tutorial",
+      "description" : "# Authorization\n\nMode of Authorization : x-api-key custom header\n\n1.     https://staging04.dtc.levi.com/api/inventory-acc : QSVabLsn4l2Nkp55Wtxi52S6voXTygk7ojGGwR5e\n2.     https://staging01.dtc.levi.com/api/inventory-acc : PqI6C7Y7jM2VcYKPXJoim2hhugcUIgE61CJdKUQL\n3.     https://staging04.dtc.levi.com/api/inventory-acc-intg : PqI6C7Y7jM2VcYKPXJoim2hhugcUIgE61CJdKUQL\n4.     https://perf04.dtc.levi.com/api/inventory-acc : TQGjvZ8mfU8oskoh2rHr16s2qI5Y2syZ1nt5SK9l\n5.     https://preprod.levi-site.com/api/inventory-acc : n7JMXUJ3cY67lrH6fL6WY9fkusean0cU8WfSxzeS\n6.     https://www.levi.com/api/inventory-acc/ : X3YdyGGivK5FaqOdJ50nN50oRYHnvqpX4m8erBHk\n\n"
+    } ],
+    "spotlights" : [ ]
+  },
+  "x-rapidapi-info" : {
+    "apiVersionId" : "apiversion_6badd69d-b029-45bf-926e-f829c60cfc71",
+    "apiId" : "api_a09f38a3-37cb-4b86-90ad-33f1c755e678"
+  }
+}

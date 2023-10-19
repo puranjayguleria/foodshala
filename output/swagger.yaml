@@ -1,1 +1,1864 @@
-
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Inventory Accuracy",
+    "description" : "Inventory Accuracy Endpoints",
+    "version" : "1",
+    "x-category" : "Accelarate",
+    "x-long-description" : "",
+    "x-website" : "",
+    "x-public" : false,
+    "x-thumbnail" : "https://rapidapi-prod-apis.s3.amazonaws.com/5e50e83f-654b-49fe-b395-448de9c1069b.png",
+    "x-version-lifecycle" : "active",
+    "x-badges" : [ ],
+    "x-collections" : [ ]
+  },
+  "servers" : [ {
+    "url" : "https://staging04.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://staging04.dtc.levi.com/api/inventory-acc-intg"
+  }, {
+    "url" : "https://staging01.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://perf04.dtc.levi.com/api/inventory-acc"
+  }, {
+    "url" : "https://preprod.levi-site.com/api/inventory-acc"
+  } ],
+  "security" : [ {
+    "security_scheme_name" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "v1"
+  }, {
+    "name" : "stock-level-controller"
+  } ],
+  "paths" : {
+    "/v1/{brand}/inventory" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the stock of all unique inventory products identified by brand, given the provided filtering parameters",
+        "description" : "Find By Id Endpoint for Inventory",
+        "externalDocs" : {
+          "description" : "",
+          "url" : ""
+        },
+        "operationId" : "findById",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "US"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "location",
+          "in" : "query",
+          "description" : "Location id to search for. Can be specified multiple times. Mandatory for itemType PC9.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "examples" : {
+            "Sample Location" : {
+              "summary" : "Sample Location",
+              "description" : "",
+              "value" : "810"
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "levi",
+            "enum" : [ "levi", "docker" ]
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "query",
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "summary" : "PC9",
+              "description" : "",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "summary" : "PC13",
+              "description" : "",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "pc9",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ]
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory/pc9/list" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "description" : "Endpoint for findAggregatedInvStockList",
+        "externalDocs" : {
+          "description" : "",
+          "url" : ""
+        },
+        "operationId" : "findAggregatedInvStockList",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "US"
+          }
+        }, {
+          "name" : "aggregationLevel",
+          "in" : "query",
+          "description" : "A valid aggregation level, when provided it should aggregate the list of results. Used for when itemType is PC9 and we need to get the inventory at PC13 level.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "pc9",
+            "enum" : [ "pc9", "pc13" ]
+          }
+        }, {
+          "name" : "locations",
+          "in" : "query",
+          "description" : "Location id to search for. Can be specified multiple times. If missing, it means the aggregation must be made across all locations.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "selectedstoreId",
+          "in" : "query",
+          "description" : "A valid aggregation level, when provided it should aggregate the list of results. Used for when itemType is PC9 and we need to get the inventory at PC13 level.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "levi",
+            "enum" : [ "levi", "docker" ]
+          }
+        }, {
+          "name" : "itemIdList",
+          "in" : "query",
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "summary" : "PC9",
+              "description" : "",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "summary" : "PC13",
+              "description" : "",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "description" : "The type of identifier to use. One of pc9/pc13. Mandatory.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "pc9",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ]
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                },
+                "examples" : {
+                  "pc9_pc9" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "prd1",
+                        "inventory" : [ {
+                          "dcInventory" : 100,
+                          "sfsInventory" : 47,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  },
+                  "pc9_pc13" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "prd1",
+                        "inventory" : [ {
+                          "sku" : "sku12",
+                          "dcInventory" : 0,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 1,
+                          "selectedStoreBOPISInventory" : 1,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        }, {
+                          "sku" : "sku11",
+                          "dcInventory" : 1,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      }, {
+                        "itemId" : "prd2",
+                        "inventory" : [ {
+                          "sku" : "sku13",
+                          "dcInventory" : 1,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        }, {
+                          "sku" : "sku14",
+                          "dcInventory" : 0,
+                          "sfsInventory" : 1,
+                          "selectedStoreSFSInventory" : 1,
+                          "selectedStoreBOPISInventory" : 1,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  },
+                  "pc13_pc13" : {
+                    "value" : {
+                      "inventoryItems" : [ {
+                        "itemId" : "sku13",
+                        "inventory" : [ {
+                          "dcInventory" : 1,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      }, {
+                        "itemId" : "sku14",
+                        "inventory" : [ {
+                          "dcInventory" : 0,
+                          "sfsInventory" : 2,
+                          "selectedStoreSFSInventory" : 0,
+                          "selectedStoreBOPISInventory" : 0,
+                          "futureInventory" : {
+                            "asnQty" : 10,
+                            "asnDate" : "2022-12-29 04:37:14"
+                          }
+                        } ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "code" : 400,
+                      "message" : "Invalid value:'ONLINEr' for field:'channelType'. Only ONLINE/RETAIL is supported",
+                      "timestamp" : "2022-12-02T12:30:49.603131",
+                      "errorCode" : "INV-ACC-API-9"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/{brand}/inventory/{itemId}" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the stock of the unique inventory product identified by brand and PC13 SKU, from all locations",
+        "description" : "Find data by sku",
+        "externalDocs" : {
+          "description" : "",
+          "url" : ""
+        },
+        "operationId" : "findBySku",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "US"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "description" : "A valid SKU to search for. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC13" : {
+              "summary" : "PC13",
+              "description" : "",
+              "value" : "00501010103334"
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "levi",
+            "enum" : [ "levi", "docker" ]
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "offset" : 0,
+                      "limit" : 0,
+                      "total" : 0,
+                      "inventoryItems" : [ {
+                        "productId" : "",
+                        "sku" : "",
+                        "upcEan" : "",
+                        "locationId" : "",
+                        "locationType" : "",
+                        "quantityOnStock" : 0,
+                        "sfsAvailableToSellQuantity" : 0,
+                        "bopisAvailableToSellQuantity" : 0,
+                        "rfidCount" : {
+                          "updatedAt" : "",
+                          "discrepancy" : 0,
+                          "scannedQuantity" : 0,
+                          "salesfloorQuantity" : 0,
+                          "backStockQuantity" : 0,
+                          "offsiteQuantity" : 0,
+                          "approved" : true
+                        },
+                        "createdAt" : "",
+                        "updatedAt" : ""
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory/{itemType}/{itemId}" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the aggregated inventory stock of an inventory product identified by brand, itemType and itemId, given the provided filtering parameters",
+        "description" : "Find Aggregated result By Id",
+        "externalDocs" : {
+          "description" : "",
+          "url" : ""
+        },
+        "operationId" : "findAggregatedById",
+        "parameters" : [ {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "US"
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "path",
+          "description" : "A valid ProductId, SKU, UPC or BARCODE, from all locations.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "summary" : "PC9",
+              "description" : "",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "summary" : "PC13",
+              "description" : "",
+              "value" : "00501010103334"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "path",
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "pc9",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ]
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "levi",
+            "enum" : [ "levi", "docker" ]
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "005010101",
+                      "status" : "instock",
+                      "channels" : [ {
+                        "channelType" : "onlineDC",
+                        "inventory" : [ {
+                          "availableLocations" : "1919,810,812,820",
+                          "quantityOnStock" : 320740,
+                          "sfsAvailableToSellQuantity" : 49712,
+                          "bopisAvailableToSellQuantity" : 2272
+                        } ]
+                      }, {
+                        "channelType" : "stores",
+                        "inventory" : [ {
+                          "availableLocations" : "102,116,117,121,122,124,125,126,127,128,129,134,135,137,145,146,148,149,167,175,182,183,185,186,189,190,195,197,198,203,204,210,213,221,224,233,244,246,255,258,270,271,282,284,285,287,288,289,294,327,329,401,405,408,409,413,414,417,421,423,425,428,430,435,437,441,448,451,455,456,457,463,466,481,493,601,604,605,610,618,637,638,640,642,931,934,938,941",
+                          "quantityOnStock" : 21670,
+                          "sfsAvailableToSellQuantity" : 999,
+                          "bopisAvailableToSellQuantity" : 21441
+                        } ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "",
+                      "status" : "",
+                      "channels" : [ {
+                        "channelType" : "",
+                        "inventory" : [ ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_400_1"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "itemId" : "",
+                      "status" : "",
+                      "channels" : [ {
+                        "channelType" : "",
+                        "inventory" : [ ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/{brand}/channel/inventory" : {
+      "get" : {
+        "tags" : [ "stock-level-controller" ],
+        "summary" : "Retrieves the aggregated inventory stock of a list of products, identified by brand, itemType, a list of item ids and a list of locations",
+        "description" : "Find Aggregated Stock List",
+        "externalDocs" : {
+          "description" : "",
+          "url" : ""
+        },
+        "operationId" : "findAggregatedStockList",
+        "parameters" : [ {
+          "name" : "location",
+          "in" : "query",
+          "description" : "Location id to search for. Can be specified multiple times. If missing, it means the aggregation must be made across all locations.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "The starting offset of the current result page. Not mandatory. Defaults to 0.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "countryCode",
+          "in" : "query",
+          "description" : "A valid ISO 3166-1 alpha-2 country code. Can be specified multiple times. Defaults to US.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "US"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "The number of results per page. Not mandatory. Defaults to 10.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32",
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        }, {
+          "name" : "brand",
+          "in" : "path",
+          "description" : "The brand to query. One of levi/docker. Mandatory.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "levi",
+            "enum" : [ "levi", "docker" ]
+          }
+        }, {
+          "name" : "itemId",
+          "in" : "query",
+          "description" : "A valid ProductId or list of SKUs that identify the variants of the product. Can be specified multiple times for itemType pc13. ",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "array",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "examples" : {
+            "PC9" : {
+              "summary" : "PC9",
+              "description" : "PC9 Example",
+              "value" : "005010101"
+            },
+            "PC13" : {
+              "summary" : "PC13",
+              "description" : "PC13 Example",
+              "value" : "00501010103132"
+            }
+          }
+        }, {
+          "name" : "itemType",
+          "in" : "query",
+          "description" : "The type of identifier to use. One of pc9/pc13/upc/barcode. Mandatory.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "externalDocs" : {
+              "url" : ""
+            },
+            "default" : "pc9",
+            "enum" : [ "pc9", "pc13", "upc", "barcode" ]
+          }
+        }, {
+          "name" : "x-api-location",
+          "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "externalDocs" : {
+              "url" : ""
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 1,
+                      "inventoryItems" : [ {
+                        "itemId" : "005010101",
+                        "status" : "instock",
+                        "channels" : [ {
+                          "channelType" : "onlineDC",
+                          "inventory" : [ {
+                            "availableLocations" : "1919,810,812,820",
+                            "quantityOnStock" : 320740,
+                            "sfsAvailableToSellQuantity" : 49712,
+                            "bopisAvailableToSellQuantity" : 2272
+                          } ]
+                        }, {
+                          "channelType" : "stores",
+                          "inventory" : [ {
+                            "availableLocations" : "102,116,117,121,122,124,125,126,127,128,129,134,135,137,145,146,148,149,167,175,182,183,185,186,189,190,195,197,198,203,204,210,213,221,224,233,244,246,255,258,270,271,282,284,285,287,288,289,294,327,329,401,405,408,409,413,414,417,421,423,425,428,430,435,437,441,448,451,455,456,457,463,466,481,493,601,604,605,610,618,637,638,640,642,931,934,938,941",
+                            "quantityOnStock" : 21670,
+                            "sfsAvailableToSellQuantity" : 999,
+                            "bopisAvailableToSellQuantity" : 21441
+                          } ]
+                        } ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "inventoryItems" : [ {
+                        "itemId" : "",
+                        "status" : "",
+                        "channels" : [ {
+                          "channelType" : "",
+                          "inventory" : [ ]
+                        } ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                },
+                "examples" : {
+                  "Example_1" : {
+                    "value" : {
+                      "count" : 0,
+                      "inventoryItems" : [ {
+                        "itemId" : "",
+                        "status" : "",
+                        "channels" : [ {
+                          "channelType" : "",
+                          "inventory" : [ ]
+                        } ]
+                      } ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "RfidViewDto" : {
+        "type" : "object",
+        "properties" : {
+          "updatedAt" : {
+            "type" : "string"
+          },
+          "discrepancy" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "scannedQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "salesfloorQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "backStockQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offsiteQuantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "approved" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "StockLevelDto" : {
+        "type" : "object",
+        "properties" : {
+          "productId" : {
+            "type" : "string"
+          },
+          "sku" : {
+            "type" : "string"
+          },
+          "upcEan" : {
+            "type" : "string"
+          },
+          "locationId" : {
+            "type" : "string"
+          },
+          "locationType" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "rfidCount" : {
+            "$ref" : "#/components/schemas/RfidViewDto"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "type" : "string"
+          }
+        }
+      },
+      "StockLevelResponseDto" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offset" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "limit" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "total" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StockLevelDto"
+            }
+          }
+        }
+      },
+      "AggregatedStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "channels" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/StockByLocationTypeItemDto"
+            }
+          }
+        }
+      },
+      "AggregatedStockListDto" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AggregatedStockDto"
+            }
+          }
+        }
+      },
+      "InventoryDto" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "type" : "string"
+          },
+          "availableLocations" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "StockByLocationTypeItemDto" : {
+        "type" : "object",
+        "properties" : {
+          "channelType" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InventoryDto"
+            }
+          }
+        }
+      },
+      "AggregatedInvStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/InvStockDto"
+            }
+          }
+        }
+      },
+      "AggregatedInvStockListDto" : {
+        "type" : "object",
+        "properties" : {
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AggregatedInvStockDto"
+            }
+          }
+        }
+      },
+      "FutureInventoryDto" : {
+        "type" : "object",
+        "properties" : {
+          "asnQty" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "asnDate" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InvStockDto" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "type" : "string"
+          },
+          "dcInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreSFSInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreBOPISInventory" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "futureInventory" : {
+            "$ref" : "#/components/schemas/FutureInventoryDto"
+          }
+        }
+      },
+      "ErrorResponseDto" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "format" : "int32",
+            "example" : 400
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "Invalid value:'ONLINEr' for field:'channelType'. Only ONLINE/RETAIL is supported"
+          },
+          "timestamp" : {
+            "type" : "string",
+            "example" : "2022-12-02T12:30:49.603131"
+          },
+          "errorCode" : {
+            "type" : "string",
+            "example" : "INV-ACC-API-9"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offset" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "limit" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "total" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_inventoryItems"
+            }
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_1_inventoryItems"
+            }
+          }
+        }
+      },
+      "inline_response_400" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "timestamp" : {
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "channels" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_2_channels"
+            }
+          }
+        }
+      },
+      "inline_response_400_1" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "channels" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_1_channels"
+            }
+          }
+        }
+      },
+      "inline_response_200_3" : {
+        "type" : "object",
+        "properties" : {
+          "count" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "inventoryItems" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_3_inventoryItems"
+            }
+          }
+        }
+      },
+      "inline_response_200_rfidCount" : {
+        "type" : "object",
+        "properties" : {
+          "updatedAt" : {
+            "type" : "string"
+          },
+          "discrepancy" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "scannedQuantity" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "salesfloorQuantity" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "backStockQuantity" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "offsiteQuantity" : {
+            "maximum" : 2147483647,
+            "minimum" : -2147483648,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "approved" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "inline_response_200_inventoryItems" : {
+        "type" : "object",
+        "properties" : {
+          "productId" : {
+            "type" : "string"
+          },
+          "sku" : {
+            "type" : "string"
+          },
+          "upcEan" : {
+            "type" : "string"
+          },
+          "locationId" : {
+            "type" : "string"
+          },
+          "locationType" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "rfidCount" : {
+            "$ref" : "#/components/schemas/inline_response_200_rfidCount"
+          },
+          "createdAt" : {
+            "type" : "string"
+          },
+          "updatedAt" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_1_futureInventory" : {
+        "type" : "object",
+        "properties" : {
+          "asnQty" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "asnDate" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_1_inventory" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "type" : "string"
+          },
+          "dcInventory" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "sfsInventory" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreSFSInventory" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "selectedStoreBOPISInventory" : {
+            "maximum" : 9223372036854776000,
+            "minimum" : -9223372036854776000,
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "futureInventory" : {
+            "$ref" : "#/components/schemas/inline_response_200_1_futureInventory"
+          }
+        }
+      },
+      "inline_response_200_1_inventoryItems" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_1_inventory"
+            }
+          }
+        }
+      },
+      "inline_response_200_2_inventory" : {
+        "type" : "object",
+        "properties" : {
+          "availableLocations" : {
+            "type" : "string"
+          },
+          "quantityOnStock" : {
+            "type" : "integer"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "type" : "integer"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_2_channels" : {
+        "type" : "object",
+        "properties" : {
+          "channelType" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_2_inventory"
+            }
+          }
+        }
+      },
+      "inline_response_400_1_inventory" : {
+        "type" : "object",
+        "properties" : {
+          "sku" : {
+            "description" : "**Omitted**"
+          },
+          "availableLocations" : {
+            "description" : "**Omitted**"
+          },
+          "quantityOnStock" : {
+            "description" : "**Omitted**"
+          },
+          "sfsAvailableToSellQuantity" : {
+            "description" : "**Omitted**"
+          },
+          "bopisAvailableToSellQuantity" : {
+            "description" : "**Omitted**"
+          }
+        }
+      },
+      "inline_response_400_1_channels" : {
+        "type" : "object",
+        "properties" : {
+          "channelType" : {
+            "type" : "string"
+          },
+          "inventory" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_1_inventory"
+            }
+          }
+        }
+      },
+      "inline_response_200_3_inventoryItems" : {
+        "type" : "object",
+        "properties" : {
+          "itemId" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "channels" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_400_1_channels"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "security_scheme_name" : {
+        "type" : "apiKey",
+        "description" : "x-api-key can be found at tutorial of this api",
+        "name" : "x-api-key",
+        "in" : "header"
+      }
+    }
+  },
+  "x-gateways" : [ {
+    "url" : "Levi-BaseUrls"
+  } ],
+  "x-documentation" : {
+    "tutorials" : [ {
+      "title" : "Inventory Accuracy API Tutorial",
+      "description" : "# Authorization\n\nMode of Authorization : x-api-key custom header\n\n1.     https://staging04.dtc.levi.com/api/inventory-acc : QSVabLsn4l2Nkp55Wtxi52S6voXTygk7ojGGwR5e\n2.     https://staging01.dtc.levi.com/api/inventory-acc : PqI6C7Y7jM2VcYKPXJoim2hhugcUIgE61CJdKUQL\n3.     https://staging04.dtc.levi.com/api/inventory-acc-intg : PqI6C7Y7jM2VcYKPXJoim2hhugcUIgE61CJdKUQL\n4.     https://perf04.dtc.levi.com/api/inventory-acc : TQGjvZ8mfU8oskoh2rHr16s2qI5Y2syZ1nt5SK9l\n5.     https://preprod.levi-site.com/api/inventory-acc : n7JMXUJ3cY67lrH6fL6WY9fkusean0cU8WfSxzeS\n6.     https://www.levi.com/api/inventory-acc/ : X3YdyGGivK5FaqOdJ50nN50oRYHnvqpX4m8erBHk\n\n"
+    } ],
+    "spotlights" : [ ]
+  },
+  "x-rapidapi-info" : {
+    "apiVersionId" : "apiversion_6badd69d-b029-45bf-926e-f829c60cfc71",
+    "apiId" : "api_a09f38a3-37cb-4b86-90ad-33f1c755e678"
+  }
+}
